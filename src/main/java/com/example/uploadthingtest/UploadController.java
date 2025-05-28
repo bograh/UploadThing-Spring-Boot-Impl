@@ -3,10 +3,7 @@ package com.example.uploadthingtest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -42,4 +39,18 @@ public class UploadController {
             throw new RuntimeException(e);
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<Upload>> getUploads() {
+        List<Upload> uploads = uploadService.getUploads();
+
+        return new ResponseEntity<>(uploads, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{uploadId}")
+    public ResponseEntity<?> deleteUpload(@PathVariable String uploadId) throws IOException, InterruptedException {
+        uploadService.deleteUpload(uploadId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

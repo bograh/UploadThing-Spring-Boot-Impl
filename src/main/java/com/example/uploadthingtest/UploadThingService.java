@@ -132,10 +132,12 @@ public class UploadThingService {
 
         // Return the public URL (you might need to construct this based on UploadThing's response)
         String fileKey = fileData.get("key").asText();
+        System.out.println("File Key: " + fileKey);
         return "https://utfs.io/f/" + fileKey;
     }
 
-    public void deleteFile(String fileKey) throws IOException, InterruptedException {
+    public void deleteFile(String fileUrl) throws IOException, InterruptedException {
+        String fileKey = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("fileKeys", List.of(fileKey));
 
